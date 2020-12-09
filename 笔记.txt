@@ -1,0 +1,44 @@
+vue 是单向数据流，所以父组件无法修改子组件的数据，如果层级比较多的话，可能出现一些意想不到的问题
+
+计算属性：计算属性是基于其内部的响应式依赖进行缓存的，只有在相关响应式依赖发生改变时，他们才会重新求值，
+也可以将一些常量放在计算属性中
+方法：没有缓存，每当触发重新渲染的时候，调用方法将总会再次执行函数
+watch 和计算属性类型，计算比较大或者异步操作放在计算属性中会阻塞渲染，建议放在watch中
+
+Object.defineProperty
+1 不能检测对象属性的添加或者删除
+2 不能检测到数组长度变化(通过改变length而添加的长度不能监测到)
+3 处于性能考虑，不会对数组的元素进行监听
+所以如果想要改变数组并且视图更新的话，可以使用Vue.set(this.$set)添加，Vue.delete(this.$delete)删除 
+或者使用push,pop,shift,unshift,splice,sort,reverse这些vue进行过代理包装的方法 
+Vue.set(arr,index,data) //第一个参数为想要改变的数组，第二个是索引，第三个时想要添加的数据
+Vue.delete(arr,index)
+
+事件修饰符
+事件修饰符可以串联 click.stop.prevent
+@click.stop  开发组件的时候，为了保证methods方法只有纯粹的数据逻辑（和dom解耦，易于单元测试），不去处理dom相关操作
+stop:组织点击事件冒泡
+prevent 阻止默认事件 a标签就是不在跳转
+capture 添加事件监听器时使用事件捕获模式
+self只有当event.target时当前元素自身的时候触发处理函数
+once 点击事件只会触发一次
+passive 滚动事件的默认行为将会立即触发
+enter 只有在key时enter的时候才会触发
+
+动态组件
+
+
+who可以通过计算属性返回具体的组件
+who?'com1':'com2'
+如果使用,可以缓存组件实例，通过vm.$el获取先前的dom元素，然后直接插入到页面中去
+<keep-alive>
+<component :is="who"></component>
+</keep-alive> 
+
+keep-alive 
+include 字符串或者正则表达式，只有名称匹配的组件会被缓存
+exclude 字符串或者正则表达式，任何名称匹配的组件都不会被缓存
+max 数字，最多可以缓存多少组件实例
+使用keep-alive 之后，子组件会多两个声明周期
+activated keep-alive内组件加载成功后调用
+deactivated keep-alive内组件缓存成功后调用
