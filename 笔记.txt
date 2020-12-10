@@ -42,3 +42,5 @@ max 数字，最多可以缓存多少组件实例
 使用keep-alive 之后，子组件会多两个声明周期
 activated keep-alive内组件加载成功后调用
 deactivated keep-alive内组件缓存成功后调用
+
+
