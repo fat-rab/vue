@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-10 19:38:08
+ * @LastEditTime: 2020-12-11 17:44:59
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \eightqueen\src\components\ComMsg.vue
+-->
 <template>
   <div>
     
@@ -19,6 +27,8 @@
  * }
  * }
  * 子组件：inject:["fish"]    console.log(this.fish.love)
+ * 优点：祖先组件不需要知道那些后代组件使用它提供的属性，后代组件也不需要知道被注入的属性来自哪里
+ * 缺点：组件之间的耦合较为紧密，不宜重构，提供的属性不是响应式的
  * 3组件二次封装
  */
 export default {
