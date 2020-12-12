@@ -8,9 +8,14 @@
 -->
 
 <template>
-  <div v-getResize:[direction].quiet="onResize">浏览器高度{{ height }}</div>
+  <div>
+    <div v-getResize:[direction].quiet="onResize">浏览器高度{{ height }}</div>
+  </div>
 </template>
 <script>
+/**
+ * 为了保证Methods方法只有纯粹的数据逻辑(和DOM解耦，易于单元测试)，不去处理DOM相关的操作,而将用于处理DOM的操作委托出来，约定成特定的修饰符
+ */
 /**
  * 自定义指令创建方式
  * Vue.directive("demo", {

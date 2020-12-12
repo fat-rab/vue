@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-09 17:25:42
- * @LastEditTime: 2020-12-10 11:15:38
+ * @LastEditTime: 2020-12-12 10:50:29
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \eightqueen\src\App.vue
@@ -9,21 +9,35 @@
 
 <template>
   <div id="app">
+    <!-- 自定义指令 -->
+    <!-- <Size></Size> -->
+    <!-- 插槽 -->
     <!-- <LSlot>
       <template v-slot:context="{ data }"
         >锣鼓喧天，旌旗蔽空地欢迎{{ data.name }}
       </template>
     </LSlot> -->
-    <Lmodel v-model="selected" :list="list"></Lmodel>
-    你选择了{{ selected.name }}
+    <!-- 自定义组件使用v-modal -->
+    <!-- <Lmodel v-model="selected" :list="list"></Lmodel>
+    你选择了{{ selected.name }} -->
+    <!-- <Lmodel
+      :selected="selected"
+      :list="list"
+      @change="(data) => (this.selected = data)"
+    ></Lmodel>
+    -->
+    <!-- Renderless组件 -->
+    <!-- <SBody></SBody> -->
+    <!-- <input type="text" v-model="input" placeholder="please input" /> -->
   </div>
 </template>
 <script>
-import Lmodel from "./components/Lmodel";
+// import Lmodel from "./components/Lmodel";
+
 export default {
   name: "app",
   components: {
-    Lmodel,
+    // Lmodel,
   },
   data() {
     let list = [
@@ -37,9 +51,6 @@ export default {
       },
     ];
     return {
-      data: {
-        num: 1,
-      },
       list,
       selected: list[0],
     };

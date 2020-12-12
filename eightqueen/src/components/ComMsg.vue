@@ -1,15 +1,13 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-10 19:38:08
- * @LastEditTime: 2020-12-11 17:44:59
+ * @LastEditTime: 2020-12-12 10:48:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \eightqueen\src\components\ComMsg.vue
 -->
 <template>
-  <div>
-    
-  </div>
+  <div></div>
 </template>
 
 <script>
@@ -29,13 +27,14 @@
  * 子组件：inject:["fish"]    console.log(this.fish.love)
  * 优点：祖先组件不需要知道那些后代组件使用它提供的属性，后代组件也不需要知道被注入的属性来自哪里
  * 缺点：组件之间的耦合较为紧密，不宜重构，提供的属性不是响应式的
- * 3组件二次封装
+ * 3 $attrs与$listeners 最好不要使用,因为父组件的每次更新，子组件都会重新渲染。 本身是为了HOC高阶组件更好的创建，但是与v-model禅师了一些副作用，再加上hoc也不推荐使用
  */
 export default {
   data() {
-    return {
-      
-    }
+    return {};
   },
-}
+  updated() {
+    console.log("Why should I update?");
+  },
+};
 </script>

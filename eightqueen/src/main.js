@@ -1,34 +1,15 @@
 import Vue from "vue";
 import App from "./App.vue";
-
+//import notify from "./plugin/notify";
 Vue.config.productionTip = false;
-//自定义指令
-Vue.directive("getResize", {
-  inserted: function(el, binding) {
-    //console.log(binding);
-    let callback = binding.value;
-    let arg = binding.arg;
-    let modifiers = binding.modifiers;
-    let result = () => {
-      return arg === "1" ? window.innerWidth : window.innerHeight;
-    };
-    let onResize = () => {
-      callback(result());
-    };
-    window.addEventListener("resize", () => {
-      onResize();
-    });
-    if (modifiers && modifiers.quiet) {
-      onResize();
-    }
-    el._onResize = onResize;
-  },
-  unbind: function(el) {
-    if (!el._onResize) return;
-    window.removeEventListener("resize", el._onResize);
-    delete el._onResize;
-  },
-});
+import directive from "./util/directive/directive";
+//console.log(directive, "directive");
+
+for (const key in directive) {
+  Vue.directive(key, directive[key]);
+}
+//自定义插件
+//Vue.use(notify);
 new Vue({
   render: (h) => h(App),
 }).$mount("#app");
