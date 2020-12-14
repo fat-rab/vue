@@ -1,0 +1,71 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-14 16:45:52
+ * @LastEditTime: 2020-12-14 17:30:57
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\vue响应式源码.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //vue2 是使用defineProperty
+      let x;
+      let active;
+      function onChanged(cb) {
+        console.log("change");
+        active = cb;
+        active(); //第一次监听时调用
+        active = null;//避免后续添加重复的依赖
+      }
+      //如果有多个依赖的话，则需要把所有依赖都收集起来
+      class Dep {
+        //构造一个存放依赖的东西
+        constructor() {
+          this.deps = new Set();
+        }
+        //收集依赖
+        depend() {
+          console.log("depend1");
+          if (active) {
+            console.log("depend2");
+            this.deps.add(active);
+          }
+        }
+        notify() {
+          console.log("notify");
+          this.deps.forEach((dep) => dep());
+        }
+      }
+      let ref = function (initValue) {
+        let value = initValue;
+        let dep = new Dep();
+        return Object.defineProperty({}, "value", {
+          get() {
+            console.log("get");
+            dep.depend();
+            return value;
+          },
+          set(newValue) {
+            console.log("set");
+            value = newValue;
+            dep.notify();
+          },
+        });
+      };
+      x = ref(1); //change cb( get depend1 depend2) 
+      onChanged(() => {
+        console.log("cb");
+        document.write(`hello ${x.value}`); //最开始先调用get ,渲染dom，触发dep.depend()，收集依赖
+      });
+      x.value = 2; //set notify  cb(get depend1) 
+      x.value = 3; //set notify  cb(get depend1)
+    </script>
+  </body>
+</html>
