@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-12 10:56:12
- * @LastEditTime: 2020-12-12 11:04:04
+ * @LastEditTime: 2020-12-14 13:49:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \eightqueen\src\components\MixinCom.vue
@@ -21,10 +21,10 @@
  * Vue.mixin 全局注册的mixin，会影响到所有创建的vue实例
  * 单个文件中使用mixin:   mixins:[xxxx]
  * 如果mixin和组件出现同名的生命周期钩子函数，函数将会合并成一个数组，在组件自身钩子之前调用，随后调用组件自身钩子
- * 二者的methods components和directives 将被合并成同一个对象，如果键名重复，则调用组件
+ * 二者的methods components和directives 将被合并成同一个对象，如果键名重复，则保留组件中的键值
  * 插件
  * Vue.use(plugin)
- * 插件需要具备Install方法,install方法中使用mixin混入全局,在main.js中use
+ * 插件需要具备Install方法或者PluginInstallFunction函数, 方法中使用mixin混入全局,在main.js中use
  */
 /**
  * 组件复用
@@ -38,7 +38,7 @@
  * 3 Renderless组件
  * 3-1 复用的逻辑沉淀在包含slot插槽的组件
  * 3-2 接口由插槽Prop来暴露
- * 优点：模板可以复用，不会出现命名冲突，符合依赖倒置原则，服用的接口来源清晰
+ * 优点：模板可以复用，不会出现命名冲突，符合依赖倒置原则，复用的接口来源清晰
  */
 export default {
   props: ["rules", "value"],

@@ -29,15 +29,19 @@
     <!-- Renderless组件 -->
     <!-- <SBody></SBody> -->
     <!-- <input type="text" v-model="input" placeholder="please input" /> -->
+    <test></test>
   </div>
 </template>
 <script>
 // import Lmodel from "./components/Lmodel";
-
+//import LSlot from "./components/LSlot"
+import test from "./components/test";
 export default {
   name: "app",
   components: {
     // Lmodel,
+    // LSlot
+    test,
   },
   data() {
     let list = [
@@ -54,6 +58,9 @@ export default {
       list,
       selected: list[0],
     };
+  },
+  mounted() {
+    //this.$notify("123");
   },
 };
 </script>

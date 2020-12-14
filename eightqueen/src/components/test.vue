@@ -1,13 +1,10 @@
 <template>
   <div>
-     <!-- Renderless组件 -->
-    <com-multiplexing
-      v-slot:inputText="{ validate }"
-      :rules="rules"
-      :value="num"
-    >
-      <input type="text" @blur="validate" v-model="num" />
-    </com-multiplexing>
+    <ComMultiplexing :rules="rules" :value="num">
+      <template v-slot:inputText="{ validate }">
+        <input type="text" v-model="num" @blur="validate" />
+      </template>
+    </ComMultiplexing>
   </div>
 </template>
 
@@ -24,11 +21,15 @@ export default {
         {
           message: "请输入至少一个数字",
           test(value) {
-            return /\d/.test(value);
+            return /\d+/.test(value);
           },
         },
       ],
     };
   },
+  mounted() {
+    //this.$notify(`123`);
+  },
+  methods: {},
 };
 </script>
