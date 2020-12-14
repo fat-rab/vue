@@ -1,0 +1,107 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-14 16:45:52
+ * @LastEditTime: 2020-12-14 19:16:55
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\vue响应式源码.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 出于对渲染模板的优化，才有异步渲染队列的概念，用来等待数据更新完成之后，才会渲染DOM
+       */
+      let active;
+      function onChanged(cb) {
+        active = cb;
+        active();
+        active = null;
+      }
+      let queue = []; //储存渲染DOM的操作
+      let nextTick = function (cb) {
+        return Promise.resolve().then(cb); //将渲染操作放在微任务中，异步渲染
+      };
+      let queueJob = function (cb) {
+        if (!queue.includes(cb)) {
+          //因为更改的数据的依赖都是同一个，所以只会往queue中添加一个cb
+          //并且会在数据全部更新之后渲染DOM
+          queue.push(cb);
+          nextTick(flushJobs);
+        }
+      };
+      let flushJobs = function () {
+        while (queue.length > 0) {
+          let job = queue.shift(); //执行完之后删除，所以渲染时不会让之前渲染过的DOM再次渲染
+          job && job();
+        }
+      };
+      class Dep {
+        constructor() {
+          this.deps = new Set();
+        }
+
+        depend() {
+          if (active) {
+            this.deps.add(active);
+          }
+        }
+        notify() {
+          this.deps.forEach((dep) => queueJob(dep)); //放入异步渲染队列中
+        }
+      }
+      let ref = function (initValue) {
+        let value = initValue;
+        let dep = new Dep();
+        return Object.defineProperty({}, "value", {
+          get() {
+            dep.depend();
+            return value;
+          },
+          set(newValue) {
+            value = newValue;
+            dep.notify();
+          },
+        });
+      };
+      let x = ref(1);
+      let y = ref(1);
+      let z = ref(1);
+      let test = ref(1);
+      onChanged(() => {
+        let tem = `hello ${x.value}${y.value}${z.value}<br>`;
+        console.log(tem, "tem1");
+        document.write(tem);
+      });
+      onChanged(() => {
+        let tem = `hi ${test.value}<br>`;
+        console.log(tem, "tem2");
+        document.write(tem);
+      });
+      //如果不优化，则会渲染三次
+      x.value = 2;
+      y.value = 2;
+      z.value = 2;
+      test.value = 2;
+      test.value = 3;
+      test.value = 4;
+      
+      /**
+       * Vue.nextTick([cb,context])
+       * vm.$nextTick(cb) 
+       * 会将回调延迟到下次DOM更新之后执行
+       * 通常在修改数据之后使用这个方法，在回调中回去更新之后的DOM
+      */
+     /**
+      * 生命周期钩子函数Mounted和updated中，并不能保证子组件也完成了渲染，所以使用this.$nextTick(cb)
+      * 回调中的代码可以保证在当前组件和子组件挂在完毕之后调用
+     */
+    </script>
+  </body>
+</html>
