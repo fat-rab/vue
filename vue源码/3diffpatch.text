@@ -1,0 +1,27 @@
+vue 首先会根据之前得到的变更通知生成新的virtual DOM Tree 和之前的virtual DOM Tree 进行diffpatch操作
+
+virtualDOM (虚拟DOM)
+为什么要使用virtualDOM 
+操作DOM是很耗费性能的一件事，通过操作JS对象来模拟DOM兑现，毕竟操作JS对象比操作DOM省时间，这句话本生没有问题
+但是用来解答就不合适了
+对DOM的操作是由virtualDOM 在diffpatch中完成的，可以通过计算尽量减少对DOM的操作，保证了下限，所以减少了开发人员对DOM的操作，提高了开发效率
+
+virtualDOM 是分层思想的一种体现
+html/js/css =>框架自动抽离出一层virtualDOM =>框架可以通过不同的virtualDOM 适配到不同的显示端，所以有了一份代码不动显示端显示的可能性
+VirtualDom从初次渲染到更新
+1 js对象模拟dom（虚拟DOM1）
+2 将虚拟DOM转成真是DOM并插入页面（render）
+3 如果由事件发生（用户更新数据）修改虚拟DOM产生了虚拟DOM2，则需要比较两个虚拟DOM的差异，得到差异对象（DIFF），
+4 把差异对象应用到真正的DOM树上（patch）
+Diff&Patch
+Diff策略
+应用会通过MVVM框架，转换成virtualDOM Tree, 那么如果进行了一些对页面的操作或者异步数据需要更新DOM时候，新的虚拟DOM树需要替换老的虚拟DOM树，
+主流mvvm框架Diff策略
+1 首先按tree层级diff（level by level） 
+因为在webUI 当中，很少会出现DOM的层级结构会出现因为交互而出现更新
+2 而后按类型进行diff
+因为不同类型的节点diff代价太高，所以只对相同类型的节点进行DIFF，如果出现不同的节点，会将新的节点直接替换旧的节点
+3 最后列表Diff 
+通过给每一个值设置一个KEY，提升DIFF效率
+vue2中并没有完整的patch过程，他的节点操作是在diff过程中同时进行的,也正是这样，提高了vue操作DOM的效率
+通过oldStartIdx oldEndIdx newStartIdx oldEndIdx 进行diff 
