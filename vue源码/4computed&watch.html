@@ -1,0 +1,169 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-12-15 17:30:23
+ * @LastEditTime: 2020-12-16 15:48:22
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue\vue源码\4computed.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <button id="btn">add</button>
+    <script>
+      /**
+       * watchEffect()Effect会在他所依赖的数据改变的时候立即执行，并且第一次监听的时候也会调用
+       * 执行函数后会返回一个stop函数，可以用于停止监听数据变化
+       */
+      let active;
+      let effect = (fn, options = {}) => {
+        //之所以要用effect包裹起来，是因为后续要添加一些属性，为了避免对原函数的污染
+        let effect = (...args) => {
+          try {
+            active = effect;
+            return fn(...args);
+          } finally {
+            active = null;
+          }
+        };
+        effect.options = options;
+        //watchEffect 保存依赖，方便调用返回的stop，清除依赖，停止监听，
+        effect.deps = [];
+        return effect;
+      };
+      cleanUpEffect = (effect) => {
+        const { deps } = effect;
+        if (deps.length) {
+          for (let i = 0; i < deps.length; i++) {
+            deps[i].delete(effect);
+          }
+        }
+      };
+      function watchEffect(cb) {
+        let runner = effect(cb);
+        runner();
+        return () => {
+          cleanUpEffect(runner);
+        };
+      }
+
+      let queue = [];
+      let nextTick = function (cb) {
+        return Promise.resolve().then(cb);
+      };
+      let queueJob = function (cb) {
+        if (!queue.includes(cb)) {
+          queue.push(cb);
+          nextTick(flushJobs);
+        }
+      };
+      let flushJobs = function () {
+        while (queue.length > 0) {
+          let job = queue.shift();
+          job && job();
+        }
+      };
+
+      class Dep {
+        constructor() {
+          this.deps = new Set();
+        }
+
+        depend() {
+          if (active) {
+            this.deps.add(active);
+            active.deps.push(this.deps);
+          }
+        }
+        notify() {
+          this.deps.forEach((dep) => {
+            queueJob(dep);
+            dep.options && dep.options.schedular && dep.options.schedular();
+          });
+        }
+      }
+      let ref = function (initValue) {
+        let value = initValue;
+        let dep = new Dep();
+        return Object.defineProperty({}, "value", {
+          get() {
+            dep.depend();
+            return value;
+          },
+          set(newValue) {
+            value = newValue;
+            dep.notify();
+          },
+        });
+      };
+      let watch = (source, cb, options) => {
+        const { immediate } = options;
+        const getter = () => {
+          return source();
+        };
+        let oldValue;
+        const runner = effect(getter, {
+          schedular: () => {
+            applycb();
+          },
+        });
+        const applycb = () => {
+          let newValue = runner();
+          if (oldValue !== newValue) {
+            cb(newValue, oldValue);
+            oldValue = newValue;
+          }
+        };
+        if (immediate) {
+          applycb();
+        } else {
+          oldValue = runner();
+        }
+      };
+      let computed = (fn) => {
+        let value;
+        let dirty = true; //基于依赖进行缓存，如果依赖没有发生改变则值不会变化
+        let runner = effect(fn, {
+          schedular: () => {
+            if (!dirty) dirty = true;
+          },
+        });
+        return {
+          get value() {
+            if (dirty) {
+              value = runner();
+              dirty = false;
+            }
+            return value;
+          },
+        };
+      };
+      let count = ref(1);
+      let computedValue = computed(() => count.value + 3);
+      document.getElementById("btn").addEventListener("click", function () {
+        count.value++;
+      });
+      let stop = watchEffect(() => {
+        let tem = `hello ${count.value}${computedValue.value}`;
+        document.getElementById("app").innerText = tem;
+      });
+
+      setTimeout(() => {
+        stop();
+      }, 3000);
+      watch(
+        () => count.value,
+        (newValue, oldValue) => {
+          console.log(newValue, oldValue);
+        },
+        { immediate: false }
+      );
+    </script>
+  </body>
+</html>

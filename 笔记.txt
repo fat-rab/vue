@@ -11,7 +11,7 @@ Object.defineProperty
 3 处于性能考虑，不会对数组的元素进行监听
 所以如果想要改变数组并且视图更新的话，可以使用Vue.set(this.$set)添加，Vue.delete(this.$delete)删除 
 或者使用push,pop,shift,unshift,splice,sort,reverse这些vue进行过代理包装的方法 
-Vue.set(arr,index,data) //第一个参数为想要改变的数组，第二个是索引，第三个时想要添加的数据
+Vue.set(arr,index,data)或者实例上的this.$set //第一个参数为想要改变的数组，第二个是索引，第三个时想要添加的数据
 Vue.delete(arr,index)
 
 事件修饰符
