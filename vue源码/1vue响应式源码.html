@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-14 16:45:52
- * @LastEditTime: 2020-12-15 19:09:48
+ * @LastEditTime: 2020-12-17 15:41:59
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue\vue响应式源码.html
@@ -33,9 +33,8 @@
         }
         //收集依赖
         depend() {
-          console.log("depend1");
           if (active) {
-            console.log("depend2");
+            console.log("depend");
             this.deps.add(active);
           }
         }
@@ -65,7 +64,7 @@
         console.log("cb");
         document.write(`hello ${x.value}`); //最开始先调用get ,渲染dom，触发dep.depend()，收集依赖
       });
-      x.value = 2; //set notify  cb(get depend1)  //赋值触发set，然后调用notify，调用里面的依赖渲染DOM(需要触发get，获取value，)
+      x.value = 2; //set notify  cb(get depend1)  //赋值触发set，然后调用notify，调用里面的依赖渲染DOM(x.value需要触发get，获取value，)
       x.value = 3; //set notify  cb(get depend1)
     </script>
   </body>

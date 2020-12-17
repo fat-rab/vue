@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-15 20:20:09
- * @LastEditTime: 2020-12-16 15:35:02
+ * @LastEditTime: 2020-12-17 17:14:07
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue\test.html
@@ -14,10 +14,66 @@
     <title>Document</title>
   </head>
   <body>
+    <div id="app"></div>
     <script>
-      let a = new Set();
-      a.add(1);
-      console.log(a[0]);
+      let active;
+      let onChange = function (fn) {
+        active = fn;
+        active();
+        active = null;
+      };
+      let nextTick = function (cb) {
+        Promise.resolve().then(cb);
+      };
+      let queue = [];
+      let queueJob = function (fn) {
+        if (!queue.includes(fn)) {
+          queue.push(fn);
+          nextTick(flushJobs);
+        }
+      };
+      let flushJobs = function () {
+        while (queue.length > 0) {
+          let job = queue.shift();
+          job && job();
+        }
+      };
+      class Dep {
+        constructor() {
+          this.deps = new Set();
+        }
+        depend() {
+          if (active) {
+            this.deps.add(active);
+          }
+        }
+        notify() {
+          this.deps.forEach((dep) => queueJob(dep));
+        }
+      }
+      let ref = function (value) {
+        let dep = new Dep();
+        return Object.defineProperty({}, "value", {
+          get() {
+            dep.depend();
+            return value;
+          },
+          set(newValue) {
+            value = newValue;
+            dep.notify();
+          },
+        });
+      };
+      let x = ref(1);
+      onChange(() => {
+        console.log("渲染");
+        let str = `hello ${x.value}`;
+        document.getElementById("app").innerText = str;
+      });
+
+      x.value = 2;
+      x.value = 3;
+      x.value = 4;
     </script>
   </body>
 </html>
