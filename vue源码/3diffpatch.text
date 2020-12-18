@@ -4,14 +4,14 @@ virtualDOM (虚拟DOM)
 为什么要使用virtualDOM 
 操作DOM是很耗费性能的一件事，通过操作JS对象来模拟DOM兑现，毕竟操作JS对象比操作DOM省时间，这句话本生没有问题
 但是用来解答就不合适了
-对DOM的操作是由virtualDOM 在diffpatch中完成的，可以通过计算尽量减少对DOM的操作，保证了下限，所以减少了开发人员对DOM的操作，提高了开发效率
+对DOM的操作是由virtualDOM 在diffpatch中完成的，可以通过计算尽量减少对DOM的操作，保证了下限，并且减少了开发人员对DOM的操作，提高了开发效率
 
 virtualDOM 是分层思想的一种体现
-html/js/css =>框架自动抽离出一层virtualDOM =>框架可以通过不同的virtualDOM 适配到不同的显示端，所以有了一份代码不动显示端显示的可能性
+html/js/css =>框架自动抽离出一层virtualDOM =>框架可以通过不同的virtualDOM 适配到不同的显示端，所以有了一份代码不同显示端显示的可能性
 VirtualDom从初次渲染到更新
 1 js对象模拟dom（虚拟DOM1）
-2 将虚拟DOM转成真是DOM并插入页面（render）
-3 如果由事件发生（用户更新数据）修改虚拟DOM产生了虚拟DOM2，则需要比较两个虚拟DOM的差异，得到差异对象（DIFF），
+2 将虚拟DOM转成真实DOM并插入页面（render）
+3 如果有事件发生（用户更新数据）修改虚拟DOM产生了虚拟DOM2，则需要比较两个虚拟DOM的差异，得到差异对象（DIFF），
 4 把差异对象应用到真正的DOM树上（patch）
 Diff&Patch
 Diff策略

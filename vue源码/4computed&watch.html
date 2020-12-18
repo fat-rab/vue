@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-15 17:30:23
- * @LastEditTime: 2020-12-16 15:48:22
+ * @LastEditTime: 2020-12-18 16:15:34
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue\vue源码\4computed.html
@@ -18,7 +18,7 @@
     <button id="btn">add</button>
     <script>
       /**
-       * watchEffect()Effect会在他所依赖的数据改变的时候立即执行，并且第一次监听的时候也会调用
+       * watchEffect()会在他所依赖的数据改变的时候立即执行，并且第一次监听的时候也会调用
        * 执行函数后会返回一个stop函数，可以用于停止监听数据变化
        */
       let active;
@@ -26,7 +26,7 @@
         //之所以要用effect包裹起来，是因为后续要添加一些属性，为了避免对原函数的污染
         let effect = (...args) => {
           try {
-            active = effect;
+            active = effect; //active 用于储存依赖，方便depend的时候添加依赖
             return fn(...args);
           } finally {
             active = null;
@@ -145,7 +145,7 @@
         };
       };
       let count = ref(1);
-      let computedValue = computed(() => count.value + 3);
+      let computedValue = computed(() => count.value + 3); //count.value会触发get，所以会将computedValue的依赖加入到deps中 
       document.getElementById("btn").addEventListener("click", function () {
         count.value++;
       });

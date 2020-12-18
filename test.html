@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-15 20:20:09
- * @LastEditTime: 2020-12-17 17:14:07
+ * @LastEditTime: 2020-12-18 15:40:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue\test.html
@@ -15,12 +15,24 @@
   </head>
   <body>
     <div id="app"></div>
+    <button id="btn">add</button>
     <script>
       let active;
-      let onChange = function (fn) {
-        active = fn;
-        active();
-        active = null;
+      let effect = function (fn, options = {}) {
+        let effect = function (...args) {
+          try {
+            active = effect;
+            return fn(...args);
+          } finally {
+            active = null;
+          }
+        };
+        effect.options = options;
+        return effect;
+      };
+      let watchEffect = function (fn) {
+        let runner = effect(fn);
+        runner();
       };
       let nextTick = function (cb) {
         Promise.resolve().then(cb);
@@ -48,7 +60,10 @@
           }
         }
         notify() {
-          this.deps.forEach((dep) => queueJob(dep));
+          this.deps.forEach((dep) => {
+            queueJob(dep);
+            dep.options && dep.options.schedular && dep.options.schedular();
+          });
         }
       }
       let ref = function (value) {
@@ -64,16 +79,33 @@
           },
         });
       };
-      let x = ref(1);
-      onChange(() => {
-        console.log("渲染");
-        let str = `hello ${x.value}`;
+      let computed = function (fn) {
+        let dirty = true;
+        let value;
+        let runner = effect(fn, {
+          schedular: () => {
+            if (!dirty) dirty = true;
+          },
+        });
+        return {
+          get value() {
+            if (dirty) {
+              value = runner();
+              dirty = false;
+            }
+            return value;
+          },
+        };
+      };
+      let count = ref(1);
+      let computedValue = computed(() => count.value + 3); //count.value会触发get，所以会将computedValue的依赖加入到deps中
+      document.getElementById("btn").addEventListener("click", function () {
+        count.value++;
+      });
+      watchEffect(() => {
+        let str = `hello ${count.value}${computedValue.value}`;
         document.getElementById("app").innerText = str;
       });
-
-      x.value = 2;
-      x.value = 3;
-      x.value = 4;
     </script>
   </body>
 </html>
