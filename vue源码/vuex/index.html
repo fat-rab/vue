@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <button id="add">add</button>
+    <div id="app"></div>
+    <script src="./index.js"></script>
+    <script src="./vuex.js"></script>
+
+    <script>
+      //namespace:true 命名空间可以避免不同模块的命名冲突
+      //getters和actions中的参数rootState,rootGetters可以用来访问其他模块 rootGetters.xxx
+      //commit('xxx',null,{root:true})  //可以commit到跟模块的xxx
+      //dispatch('xxx',null,{root:true}) //可以dispatch到跟模块的xxx
+      let store = new Store({
+        state: {
+          count: 0,
+        },
+        mutations: {
+          addCount(state, payload) {
+            state.count += payload || 1;
+          },
+        },
+        plugins: [
+          (store) =>
+            store.subscribe((mutation, state) => {
+              console.log(mutation);
+            }),
+        ],
+      });
+
+      let str;
+      watch(() => {
+        str = `hello ${store.state.count}`;
+        document.getElementById("app").innerText = str;
+      });
+      document.getElementById("add").addEventListener("click", function () {
+        // data.count++;
+        store.commit("addCount", 3);
+      });
+    </script>
+  </body>
+</html>

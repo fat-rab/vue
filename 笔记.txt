@@ -44,3 +44,16 @@ activated keep-alive内组件加载成功后调用
 deactivated keep-alive内组件缓存成功后调用
 
 
+路由
+vue-router 会有一个监听器，用来监听浏览器History的变化，通常境况下，浏览器的地址改变或者点击了浏览器的前进后退按钮，history的历史栈会改变
+当监听到history改变之后，vuerouter会更具路由表中申明了的路由对应匹配的组件，通过routerView组件对VuePage的渲染
+
+如何监听
+Hash
+http://www.baidu.com#/xxxx (xxxx就是哈希值)
+当哈希改变的时候，页面不会刷新，但是会触发onhashchange事件
+window.onhashchange=function(){console.log(location.hash)} //location.hash为当前hash
+History
+点击浏览器前进后退按钮，history.go() history.back() history.forward() =>（ 等价于点击前进按钮或调用 history.go(1) ）的时候触发
+window.addEventListener("popstate",function(){console.log(window.location.pathname)})
+可以通过history.pushState({},"title","xxxx")添加历史栈或者history.replaceState({},"title","xxxx")替换历史栈，但是不会触发popstate事件
