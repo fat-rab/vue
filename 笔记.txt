@@ -57,3 +57,17 @@ History
 点击浏览器前进后退按钮，history.go() history.back() history.forward() =>（ 等价于点击前进按钮或调用 history.go(1) ）的时候触发
 window.addEventListener("popstate",function(){console.log(window.location.pathname)})
 可以通过history.pushState({},"title","xxxx")添加历史栈或者history.replaceState({},"title","xxxx")替换历史栈，但是不会触发popstate事件
+
+路由导航守卫
+1全局守卫
+全局前置守卫 beforeEach
+全局解析守卫 beforeResolve
+全局后置守卫 afterEach
+2路由独享守卫 beforeEnter
+3组件内守卫
+beforeRouteEnter
+beforeRouteUpdate
+beforeRouteLeave
+执行顺序
+页面刚刚刷新  beforeEach 在重用的组件里调用beforeRouteUpdate beforeEnter beforeRouteEnter beforeResolve afterEach
+跳转 beforeRouteLeave 接下来同上

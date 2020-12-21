@@ -5,7 +5,8 @@ export default class Html5History extends BaseHistory {
     this.initListener();
   }
   initListener() {
-    window.addEventListener("popState", () => {
+    //监听点击浏览器箭头或者history.go() history.back() history.forward()
+    window.addEventListener("popstate", () => {
       this.transitionTo(this.getCurrentLocation());
     });
   }
