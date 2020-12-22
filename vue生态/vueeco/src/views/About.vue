@@ -5,17 +5,18 @@
 </template>
 <script>
 export default {
-  // beforeRouteEnter(to, from, next) {
-  //   console.log("about-beforeRouteEnter", to, from);
-  //   next();
-  // },
-  // beforeRouteUpdate(to, from, next) {
-  //   console.log("about-beforeRouteUpdate", to, from);
-  //   next();
-  // },
-  // beforeRouteLeave(to, from, next) {
-  //   console.log("about-beforeRouteLeave", to, from);
-  //   next();
-  // },
+  name: "about",
+  beforeRouteEnter(to, from, next) {
+    console.log("home-beforeRouteEnter", to, from);
+    next();
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log("home-beforeRouteUpdate", to, from);
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log("home-beforeRouteLeave", to, from);
+    next();
+  },
 };
 </script>
