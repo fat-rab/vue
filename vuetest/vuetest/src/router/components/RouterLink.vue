@@ -14,6 +14,11 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      test: "123",
+    };
+  },
   methods: {
     jump() {
       const router = this._routerRoot._router;

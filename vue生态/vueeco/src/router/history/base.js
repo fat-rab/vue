@@ -16,7 +16,6 @@ export default class BaseHistory {
   }
   confirmTransition(route, onComplete, onAbort) {
     if (route == this.current) return;
-    console.log(route.component)
     const queue = [
       ...this.router.beforeHooks,
       route.beforeEnter,

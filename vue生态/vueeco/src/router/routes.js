@@ -77,14 +77,14 @@ Router.install = () => {
     beforeCreate() {
       //this.$options.router是绑定在app根节点的组件上。所有只有根组件有这个router属性
       //所以所有的vue component的_routerRoot、_router、都是一样的。
-      // this.$options.router存在吗？==》 是不是已经绑定_routerRoot的根节点
+      // this.$options.router存在吗？是不是已经绑定_routerRoot的根节点
       if (this.$options.router !== undefined) {
-        //this.$options main.js中Vue实例上的根
         //根节点的_routerRoot就是根节点的vue component
-        this._routerRoot = this;
+        this._routerRoot = this; //可以让组件访问到vue实例以及上面的东西
         // vue router实例
-        this._router = this.$options.router;
+        this._router = this.$options.router;//组件可以通过_routerRoot._router访问router实例
         this._router.init(this);
+        //响应式，并且可以通过_routerRoot._route获取当前的值
         Vue.util.defineReactive(this, "_route", this._router.history.current);
         //Vue.util.defineReactive(this, "_route", this._router.hash.current);
       } else {
