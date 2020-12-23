@@ -69,5 +69,14 @@ beforeRouteEnter
 beforeRouteUpdate
 beforeRouteLeave
 执行顺序
-页面刚刚刷新  beforeEach 在重用的组件里调用beforeRouteUpdate beforeEnter beforeRouteEnter beforeResolve afterEach
-跳转 beforeRouteLeave 接下来同上
+1导航触发  
+2失活的组件beforeRouteLeave
+3调用全局beforeEach,
+4在重用的组件里调用beforeRouteUpdate，
+5路由配置中嗲用beforeEnter
+6解析新的组件，在被激活的组件中调用beforeRouterEnter
+7调用全局beforeResove
+8导航确认
+9调用全局afterEach
+10触发DOM更新
+11调用beforeRouterEnter守卫中传给的next函数

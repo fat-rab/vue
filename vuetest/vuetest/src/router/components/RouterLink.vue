@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  name: "RouterLink",
   props: {
     to: {
       type: String,
