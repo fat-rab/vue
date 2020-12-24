@@ -1,19 +1,36 @@
 <template>
   <div>
-    <div class="m-top"></div>
+    <div class="m-top">
+      <router-link
+        class="m-link"
+        v-for="nav in navs"
+        :key="nav.path"
+        :to="nav.path"
+        >{{ nav.name }}</router-link
+      >
+    </div>
     <div class="m-content">
-      <u-topic type="top"></u-topic>
+      <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
 import UTopic from "./module/topic/views/UTopic.vue";
-
+import { LIST_TYPE } from "./module/topic/store";
 export default {
   components: {
-    UTopic
-  }
+    UTopic,
+  },
+  computed: {
+    navs() {
+      return [
+        { name: "热门", path: LIST_TYPE.HOT },
+        { name: "最新", path: LIST_TYPE.NEW },
+        { name: "最赞", path: LIST_TYPE.TOP },
+      ];
+    },
+  },
 };
 </script>
 
@@ -42,5 +59,16 @@ a {
   background: #fff;
   margin: 20px auto;
   padding: 0 20px;
+}
+.m-link {
+  display: inline-block;
+  font-size: 16px;
+  height: 60px;
+  line-height: 60px;
+  padding: 0 20px;
+  color: #fff;
+}
+.router-link-active {
+  background: #00a6ff;
 }
 </style>

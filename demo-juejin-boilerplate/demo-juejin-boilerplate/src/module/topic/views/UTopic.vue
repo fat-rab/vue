@@ -24,6 +24,11 @@ export default {
       items: (state) => state.topic[state.topic.activeType].items,
     }),
   },
+  watch: {
+    type(type) {
+      this.fetchNext();
+    },
+  },
   created() {
     this.fetchNext();
   },
