@@ -2,7 +2,7 @@
   <div>
     <div class="m-top"></div>
     <div class="m-content">
-      <u-topic></u-topic>
+      <u-topic type="top"></u-topic>
     </div>
   </div>
 </template>

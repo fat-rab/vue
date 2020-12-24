@@ -1,9 +1,9 @@
 <template>
   <a class="item" :href="node.originalUrl">
-    <div class="title">{{ node.title }}</div>
+    <div class="title">{{ node.item_info.article_info.title }}</div>
     <div class="tags" v-if="hasTag">
       #
-      <span class="tag" v-for="tag in node.tags" :key="tag.id">{{tag.title}}</span>
+      <span class="tag" v-for="tag in node.item_info.tags" :key="tag.id">{{tag.tag_name}}</span>
     </div>
   </a>
 </template>
@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     hasTag() {
-      return this.node.tags && this.node.tags.length > 0;
+      return this.node.item_info.tags && this.node.item_info.tags.length > 0;
     }
   }
 };

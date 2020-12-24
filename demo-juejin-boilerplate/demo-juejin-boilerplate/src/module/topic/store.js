@@ -29,7 +29,6 @@ export const topic = {
     },
     SET_LIST: (state, { items, pageInfo }) => {
       state[state.activeType].pageInfo = pageInfo;
-
       items.forEach((item) => {
         item && state[state.activeType].items.push(item);
       });
@@ -49,7 +48,10 @@ export const topic = {
       return fetchItems({
         type,
         after,
-      }).then((data) => commit("SET_LIST", data));
+      }).then((data) => {
+        console.log(data);
+        commit("SET_LIST", data);
+      });
     },
   },
 };

@@ -47,7 +47,7 @@ export const fetchItems = ({ type, after }) => {
       extensions: { query: { id: "21207e9ddb1de777adeaca7a2fb38030" } },
     })
     .then(({ data, cursor }) => {
-      console.log(data);
+      //console.log(data);
       return {
         items: data,
         pageInfo: {

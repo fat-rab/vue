@@ -18,6 +18,11 @@ app.use("/dist", serve("./dist", true));
 app.use("/public", serve("./public", true));
 const serverReady = setUpDevServer(app);
 
+const json = require("./mock.json");
+app.get("/api/lists", function(req, res) {
+  console.log(res, "res");
+  res.send(json);
+});
 app.get("*", (req, res) => {
   serverReady.then((clientCompiler) => {
     clientCompiler.outputFileSystem.readFile(HTML_FILE, (err, result) => {
