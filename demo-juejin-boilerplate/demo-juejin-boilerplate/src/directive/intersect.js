@@ -1,30 +1,3 @@
-// const intersect = {
-//   inserted(el, binding) {
-//     const value = binding.value
-//     const { handler, options = {} } = value;
-
-//     let observer = new IntersectionObserver((entries = [], options) => {
-//       if (!el._observer) return
-//       if (handler && el._observer.init) {
-//         const isIntersecting = Boolean(
-//           entries.find((entry) => entry.isIntersecting)
-//         )
-//         if (isIntersecting) {
-//           handler()
-//         }
-//       }
-//       el._observer.init = true
-//     })
-//     el._observer = { init: false, observer }
-//     observer.observe(el);
-//   },
-//   unbind(el) {
-//     if (!el._observe) return;
-//     //停止观察
-//     el._observe.observer.unobserve(el);
-//     delete el._observe;
-//   }
-// }
 const intersect = {
   inserted(el, binding) {
     const value = binding.value;

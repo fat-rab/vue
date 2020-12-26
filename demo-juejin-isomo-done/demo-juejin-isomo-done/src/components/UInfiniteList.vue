@@ -20,8 +20,8 @@ export default {
   data() {
     return {
       buffer: 5,
-      scrollTop: 0,
-      viewportHeight: 0
+      scrollTop: 0, //document.body.scrollTop 网页被卷去的高
+      viewportHeight: 0 //window.innerHeight返回窗口的文档显示区的高度
     };
   },
   computed: {

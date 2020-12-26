@@ -44,12 +44,10 @@ export const topic = {
       }
 
       const after = state[type].pageInfo.endCursor || 0;
-
       return fetchItems({
         type,
         after,
       }).then((data) => {
-        console.log(data);
         commit("SET_LIST", data);
       });
     },
