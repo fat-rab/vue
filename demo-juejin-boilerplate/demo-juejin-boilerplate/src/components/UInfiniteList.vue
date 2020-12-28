@@ -1,5 +1,9 @@
 <template>
-  <div class="x-infinite" ref="container" :style="{ padding: padding }">
+  <div
+    class="x-infinite"
+    ref="container"
+    :style="{ padding: padding }"
+  >
     <slot :sliceItems="sliceItems"></slot>
   </div>
 </template>
@@ -46,7 +50,6 @@ export default {
       return this.items.slice(this.over, this.down);
     },
     padding() {
-      console.log(this.over, this.down, this.items.length);
       return `${this.over * this.itemHeight}px 0 ${Math.max(
         (this.items.length - this.down) * this.itemHeight,
         0
