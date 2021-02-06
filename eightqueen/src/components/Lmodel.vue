@@ -23,7 +23,7 @@
 export default {
   model: {
     prop: "selected",
-    event: "change",
+    event: "changeData",
   },
   props: ["selected", "list"],
   data() {
@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     changeSelect(i) {
-      this.$emit("change", this.list[i]);
+      this.$emit("changeData", this.list[i]);
       this.showBottom = false;
     },
   },

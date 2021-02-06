@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-12-09 17:25:42
- * @LastEditTime: 2020-12-12 10:50:29
+ * @LastEditTime: 2021-02-04 09:18:28
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \eightqueen\src\App.vue
@@ -9,39 +9,41 @@
 
 <template>
   <div id="app">
-    <!-- 自定义指令 -->
-    <!-- <Size></Size> -->
-    <!-- 插槽 -->
-    <!-- <LSlot>
-      <template v-slot:context="{ data }"
-        >锣鼓喧天，旌旗蔽空地欢迎{{ data.name }}
-      </template>
-    </LSlot> -->
-    <!-- 自定义组件使用v-modal -->
+    <!-- 1自定义组件使用v-modal -->
     <!-- <Lmodel v-model="selected" :list="list"></Lmodel>
     你选择了{{ selected.name }} -->
     <!-- <Lmodel
       :selected="selected"
       :list="list"
       @change="(data) => (this.selected = data)"
-    ></Lmodel>
-    -->
-    <!-- Renderless组件 -->
-    <!-- <SBody></SBody> -->
-    <!-- <input type="text" v-model="input" placeholder="please input" /> -->
-    <test></test>
+    ></Lmodel> -->
+    <!-- 2插槽 -->
+    <!--<LSlot>
+      <template v-slot:context="{ data }"
+        >锣鼓喧天，旌旗蔽空地欢迎{{ data.name }}
+      </template>
+    </LSlot> -->
+    <!-- 3自定义指令 -->
+    <!-- <Size></Size> -->
+    <!-- 4Renderless组件 -->
+    <SBody></SBody>
+    <!-- <test></test> -->
   </div>
 </template>
 <script>
-// import Lmodel from "./components/Lmodel";
-//import LSlot from "./components/LSlot"
-import test from "./components/test";
+//import Lmodel from "./components/Lmodel";
+//import LSlot from "./components/LSlot";
+//import test from "./components/test";
+//import Size from "./components/Size";
+import SBody from "./components/SBody";
 export default {
   name: "app",
   components: {
-    // Lmodel,
-    // LSlot
-    test,
+    SBody,
+    //Size,
+    //Lmodel,
+    //LSlot,
+    //test,
   },
   data() {
     let list = [

@@ -19,7 +19,7 @@ Diff策略
 主流mvvm框架Diff策略
 1 首先按tree层级diff（level by level） 
 因为在webUI 当中，很少会出现DOM的层级结构会出现因为交互而出现更新
-2 而后按类型进行diff
+2 然后按类型进行diff
 因为不同类型的节点diff代价太高，所以只对相同类型的节点进行DIFF，如果出现不同的节点，会将新的节点直接替换旧的节点
 3 最后列表Diff 
 通过给每一个值设置一个KEY，提升DIFF效率

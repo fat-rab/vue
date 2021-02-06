@@ -29,7 +29,7 @@
  * inserted:function(el,binding,vnode){
  * el.parentNode可以访问当前节点的父节点
  * }
- * 所在组件的vnode更新时调用，但是可能发生在其字Vnode更新之前
+ * 所在组件的vnode更新时调用，但是可能发生在其子Vnode更新之前
  * 指令的值可能发生了改变，也可能没有，但是可以通过比较更新前后的值来忽略不必要的更新，从而一定程度提高性能
  * update:function(el,binding,vnode,oldVnode){}
  * 指令所在组件的vnode以及其子vnode全部更新之后调用
@@ -50,7 +50,7 @@
  * modifiers 一个包含修饰符的对象   v-my-directive.foo.bar   {foo:true ,bar :true}
  * }
  * vnode vue编辑生成的虚拟节点
- * oldNnode 上一个虚拟节点，仅在update 和componentUpdate中可以使用
+ * oldVnode 上一个虚拟节点，仅在update 和componentUpdate中可以使用
  */
 export default {
   data() {

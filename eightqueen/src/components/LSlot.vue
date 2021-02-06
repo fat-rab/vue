@@ -8,7 +8,7 @@
 <script>
 /**
  * <slot name="default"></slot>
- * 如果不写name 默认name="default"  template也可以不写v-slot,默认插入这个插槽
+ * 如果不写name 默认name="default"  template也可以不写v-slot:default,默认插入这个插槽
  * v-slot:context 可以用 #context 简写方式代替
  * slot标签上 :data="data" 父模板template标签上v-slot:context="{ data }" 可以让子模版的数据在父模板中使用,
  * <LSlot>
